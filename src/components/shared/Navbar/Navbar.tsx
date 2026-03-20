@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const Navbar = () => {
@@ -7,27 +8,27 @@ const Navbar = () => {
   return (
     <header className="w-full font-sans">
       {/* Top Promotional Bar */}
-      <div className="bg-[#0f2744] border-b-2 border-[#c41e3a]/80 w-full py-2.5 px-4 md:px-8 relative flex flex-col md:flex-row items-center justify-center min-h-[60px]">
+      <div className="bg-[#0f2744] border-b-2 border-[#c41e3a]/80 w-full py-3 px-4 md:px-8 relative flex flex-col md:flex-row items-center justify-center min-h-[60px]">
 
         {/* Left Badge - Hidden on very small screens, absolutely positioned on desktop for perfect text centering */}
-        <div className="hidden md:flex absolute left-4 lg:left-8 bg-[#c41e3a] text-white font-extrabold px-3 py-1.5 rounded text-xs tracking-wider shadow-sm">
+        <button className="hidden md:flex absolute left-4 lg:left-5 bg-[#c41e3a] text-white font-extrabold px-3 py-1 rounded text-xs tracking-wider shadow-sm">
           {currentMonth} SPECIAL
-        </div>
+        </button>
 
         {/* Center Content Group */}
-        <div className="flex flex-col items-center justify-center space-y-1.5 text-center w-full">
+        <div className="flex flex-col items-center justify-center space-y-1 text-center w-full">
 
           {/* Main Headline */}
-          <h5 className="text-white font-bold text-base md:text-[1.15rem] tracking-tight">
+          <h5 className="text-white font-bold text-base md:text-2xl tracking-tight">
             Employee Pricing Now Available — No Games, No Gimmicks.
           </h5>
 
           {/* Subtext & Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 text-[0.7rem] md:text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs md:text-sm">
             <span className="text-gray-200">Exclusive savings for</span>
 
             {/* Pill Badge for Location */}
-            <span className="bg-[#c41e3a] text-white px-2.5 py-0.5 rounded-full font-bold shadow-sm">
+            <span className="bg-[#c41e3a] text-white px-2.5 py-1 rounded-full font-bold shadow-sm">
               Dallas-Fort Worth Homeowners
             </span>
 

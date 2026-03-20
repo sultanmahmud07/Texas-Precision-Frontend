@@ -56,7 +56,7 @@ const itemVariants: Variants = {
 // --- Main Component ---
 export default function IndustrySecrets() {
   return (
-    <section className="py-10 md:py-20  font-sans">
+    <section className="py-8 md:py-10  font-sans">
       <div className="main-container">
         {/* Animated Main Container with Staggered children */}
         <motion.div
