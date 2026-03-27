@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Search, ShieldCheck, Check, Ban, AlertTriangle } from "lucide-react";
+import { toast } from "sonner";
 
 export default function StormHero() {
       const [zipCode, setZipCode] = useState("");
@@ -9,7 +10,7 @@ export default function StormHero() {
       const handleCheck = (e: React.FormEvent) => {
             e.preventDefault();
             if (zipCode.length >= 5) {
-                  alert(`Checking storm data for ZIP: ${zipCode}...`);
+                  toast.success(`Checking storm data for ZIP: ${zipCode}...`);
             }
       };
 
@@ -72,7 +73,7 @@ export default function StormHero() {
 
                         {/* Alert Badge (.alert-badge) */}
                         <div className="inline-flex items-center justify-center gap-2 bg-linear-to-br from-red-500/20 to-red-500/5 border border-red-500/40 text-red-300 px-5 py-2 rounded-full text-[0.65rem] md:text-xs font-bold uppercase tracking-[2px] mb-8 shadow-[0_0_20px_rgba(239,68,68,0.15)] animate-pulse">
-                       <span className="mr-2"> ⚠️</span>
+                              <span className="mr-2"> ⚠️</span>
                               {/* <AlertTriangle className="w-3.5 h-3.5 text-red-400" /> */}
                               ABILENE STORM ALERT — MARCH 2026
                         </div>
@@ -107,7 +108,12 @@ export default function StormHero() {
                               {/* Form Body */}
                               <form onSubmit={handleCheck} className="p-6 md:p-8">
                                     <div className="mb-6">
-                                          <label className="block text-cyan-500 font-mono text-[0.65rem] md:text-xs font-bold uppercase tracking-[2px] mb-3 text-left pl-2">
+                                          <label className="flex items-center text-cyan-500 font-mono text-[0.65rem] md:text-xs font-bold uppercase tracking-[2px] mb-3 text-left pl-2">
+                                                {/* Active Pulsing Dot */}
+                                                <span className="relative flex h-2 w-2 mr-2.5">
+                                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500 shadow-[0_0_8px_#06b6d4]"></span>
+                                                </span>
                                                 Enter Your ZIP Code
                                           </label>
 
@@ -117,8 +123,9 @@ export default function StormHero() {
                                                       maxLength={5}
                                                       value={zipCode}
                                                       onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))} // Only allow numbers
-                                                      placeholder="0 0 0 0 0"
-                                                      className="w-full bg-[#0a111a] border-2 border-[#06b6d433] rounded-xl py-4 md:py-5 text-center text-white font-mono text-xl md:text-2xl tracking-[0.7em] md:tracking-[1em] outline-none focus:border-[#06b6d4] focus:ring-1 focus:ring-[#06b6d4] transition-all placeholder-gray-800"
+                                                      // Removed the physical spaces here, let CSS tracking handle the spacing!
+                                                      placeholder="00000"
+                                                      className="w-full bg-[#0a111a] border-2 border-[#06b6d433] rounded-xl py-4 md:py-5 text-center text-white font-mono text-xl md:text-2xl tracking-[0.5em] md:tracking-[0.8em] pl-[0.5em] md:pl-[0.8em] outline-none focus:border-[#06b6d4] focus:ring-1 focus:ring-[#06b6d4] transition-all placeholder-gray-800"
                                                 />
                                           </div>
                                     </div>
@@ -127,8 +134,8 @@ export default function StormHero() {
                                           type="submit"
                                           disabled={zipCode.length < 5}
                                           className={`w-full flex items-center justify-center gap-2 border-none py-4 rounded-xl font-bold text-sm md:text-base uppercase tracking-widest transition-all duration-300 ${zipCode.length === 5
-                                                      ? "bg-linear-to-r from-cyan-400 to-cyan-600 text-[#050a12] shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] cursor-pointer hover:-translate-y-0.5"
-                                                      : "bg-cyan-900/40 text-cyan-600/50 cursor-not-allowed"
+                                                ? "bg-linear-to-r from-cyan-400 to-cyan-600 text-[#050a12] shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] cursor-pointer hover:-translate-y-0.5"
+                                                : "bg-cyan-900/40 text-cyan-600/50 cursor-not-allowed"
                                                 }`}
                                     >
                                           <Search className="w-5 h-5" />
@@ -139,13 +146,13 @@ export default function StormHero() {
                               {/* Footer Features */}
                               <div className="bg-[#080d15]/50 border-t border-cyan-500/10 px-4 py-3 md:py-4 flex items-center justify-center gap-4 md:gap-6 text-[0.6rem] md:text-xs text-[#06b6d4] font-medium">
                                     <div className="flex items-center gap-1.5">
-                                          <ShieldCheck className="w-3.5 h-3.5" /> Instant results
+                                          <ShieldCheck className="w-3.5 h-3.5" /> <span className="text-[rgba(255,255,255,0.4)]">Instant results</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                          <Check className="w-3.5 h-3.5" /> 100% free
+                                          <Check className="w-3.5 h-3.5" /> <span className="text-[rgba(255,255,255,0.4)]">100% free</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                          <Ban className="w-3.5 h-3.5" /> No obligation
+                                          <Ban className="w-3.5 h-3.5" /> <span className="text-[rgba(255,255,255,0.4)]">No obligation</span>
                                     </div>
                               </div>
 

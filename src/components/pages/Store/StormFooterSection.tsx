@@ -36,7 +36,7 @@ export default function StormFooterSection() {
           <button 
             onClick={handleScrollToTop}
             className="
-              inline-flex items-center justify-center gap-2
+              inline-flex cursor-pointer items-center justify-center gap-2
               bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)]
               text-white border-none
               px-5 md:px-8 py-3 md:py-4 text-sm md:text-base
