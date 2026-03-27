@@ -74,10 +74,10 @@ interface FaqItemProps {
 
 const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, onToggle }) => {
   return (
-    <div className="bg-[#f8fafc] border-2 border-[#e2e8f0] hover:border-primary rounded-xl mb-4  overflow-hidden transition-all duration-300 ease-in-out cursor-">
+    <div className="bg-[#f8fafc] border-2 border-[#e2e8f0] hover:border-primary rounded-xl mb-4  overflow-hidden transition-all duration-300 ease-in-out cursor-pointer">
       <button
         onClick={onToggle}
-        className="w-full px-5 py-5 md:py-7 hover:bg-primary/5 md:px-6 md:py-6 flex items-center justify-between transition cursor-pointer text-left focus:outline-none"
+        className="w-full px-5 py-5 md:py-7 hover:bg-primary/5 md:px-6 flex items-center justify-between transition cursor-pointer text-left focus:outline-none"
         aria-expanded={isOpen}
       >
         <span className="text-[##0f2744] font-bold text-[15px] md:text-base pr-4">

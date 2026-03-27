@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -54,15 +54,15 @@ const testimonials = [
 
 export default function TestimonialSection() {
   return (
-    <section className="py-16 md:py-20 font-sans bg-white">
+    <section className="py-10 md:py-20 font-sans bg-white">
       <div className="main-container max-w-6xl mx-auto">
         
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-[#0f2744] text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">
+          <h2 className="text-[#0f2744] text-2xl md:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
             What DFW Homeowners Say
           </h2>
-          <p className="text-gray-500 font-medium text-sm md:text-base">
+          <p className="text-gray-500 font-medium text-sm md:text-lg">
             Real reviews from real customers • 5.0/5 Google rating
           </p>
         </div>
@@ -77,8 +77,8 @@ export default function TestimonialSection() {
                 group
                 flex flex-col h-full
                 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_100%)]
-                border-[2px] border-[#e2e8f0]
-                rounded-[16px]
+                border-2 border-[#e2e8f0]
+                rounded-2xl
                 p-[30px]
                 transition-all duration-300 ease-in-out
                 hover:border-[#c41e3a]
@@ -90,10 +90,10 @@ export default function TestimonialSection() {
               <div className="flex items-center gap-4 mb-5">
                 {/* Avatar matching .case-study-avatar */}
                 <div className="
-                  w-[55px] h-[55px] flex-shrink-0
+                  w-[55px] h-[55px] shrink-0
                   bg-[linear-gradient(135deg,#c41e3a_0%,#e63950_100%)]
                   rounded-full flex items-center justify-center
-                  text-[1.4em] font-[800] text-white
+                  text-[1.4em] font-extrabold text-white
                 ">
                   {testimonial.initials}
                 </div>
@@ -108,14 +108,14 @@ export default function TestimonialSection() {
               </div>
 
               {/* Stars matching .case-study-stars */}
-              <div className="flex text-[#c41e3a] mb-[15px] gap-[2px]">
+              <div className="flex text-[#c41e3a] mb-[15px] gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
                 ))}
               </div>
 
               {/* Review Text */}
-              <p className="text-gray-600 text-sm leading-relaxed italic mb-6 flex-grow">
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed italic mb-6 grow">
                 {testimonial.review}
               </p>
 
@@ -123,9 +123,9 @@ export default function TestimonialSection() {
               <div className="
                 mt-auto
                 bg-[#fef2f4]
-                px-[15px] py-[10px]
-                rounded-[8px]
-                text-[0.85em] text-[#991b1b] font-[600]
+                px-[15px] py-2.5
+                rounded-xl
+                text-[0.85em] text-[#991b1b] font-semibold
                 leading-tight
               ">
                 {testimonial.projectTag}

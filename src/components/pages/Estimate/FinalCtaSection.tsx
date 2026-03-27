@@ -13,7 +13,7 @@ export default function FinalCtaSection() {
   };
 
   return (
-    <section className="py-10 md:py-20 font-sans">
+    <section className="py-6 md:pb-20 font-sans">
       <div className="main-container max-w-5xl mx-auto">
         
         {/* --- Inline Styles for Arrow Animation --- */}

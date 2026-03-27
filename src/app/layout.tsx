@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Geist_Mono, Oswald, Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 import NextTopLoader from 'nextjs-toploader';
-import MobileNavbar from "@/components/shared/Navbar/BottomNavbar";
 const geistOswald = Oswald({
       variable: "--font-geist-oswald",
       subsets: ["latin"],
@@ -83,7 +82,7 @@ export default function RootLayout({
                               height={4}
                         />
                         {children}
-                        <MobileNavbar />
+                        {/* <MobileNavbar /> */}
                         <Toaster position="bottom-right" richColors />
                   </body>
             </html>
