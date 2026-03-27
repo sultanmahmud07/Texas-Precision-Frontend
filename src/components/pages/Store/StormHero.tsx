@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, ShieldCheck, Check, Ban, AlertTriangle } from "lucide-react";
+import { Search, ShieldCheck, Check, Ban } from "lucide-react";
 import { toast } from "sonner";
 
 export default function StormHero() {
