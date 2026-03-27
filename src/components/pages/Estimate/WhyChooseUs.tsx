@@ -100,13 +100,13 @@ export default function WhyChooseUs() {
               variants={cardVariants}
               className="text-white text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight"
             >
-              Why DFW Homeowners Choose Texas Precision Roofing
+              Why Homeowners Choose Texas Precision Roofing
             </motion.h2>
             <motion.p 
               variants={cardVariants}
               className="text-gray-300 text-sm md:text-base font-medium"
             >
-              Owner-Operated • 5.0 Google Rating • Licensed & Insured in Texas
+              Owner-Operated • 5.0 Google Rating • Insured in Texas
             </motion.p>
           </div>
 

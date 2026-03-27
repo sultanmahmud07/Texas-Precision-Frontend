@@ -135,7 +135,7 @@ export default function FaqSection() {
             Your Questions Answered
           </h2>
           <p className="text-gray-500 font-medium text-sm md:text-lg max-w-2xl mx-auto">
-            We&apos;ve helped hundreds of DFW homeowners with their roofing needs. Here are answers to the questions we hear most often.
+            We&apos;ve helped hundreds of homeowners with their roofing needs. Here are answers to the questions we hear most often.
           </p>
         </div>
 

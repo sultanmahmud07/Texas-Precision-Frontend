@@ -1,6 +1,13 @@
-import React from "react";
-
+"use client";
 export default function Footer() {
+    // Smooth scroll handler
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <footer className="w-full bg-[linear-gradient(135deg,#0f2744_0%,#071420_100%)] pt-16 pb-8 font-sans border-t border-gray-800">
       <div className="main-container">
@@ -16,7 +23,9 @@ export default function Footer() {
             <p className="text-[#94a3b8] text-sm md:text-base leading-relaxed mb-6 font-medium">
               I know choosing the right roofing contractor is a big decision. As an owner-operated company with 12+ years of experience, I&apos;ve built my reputation on radical honesty and fair pricing—not sales gimmicks.
             </p>
-            <button className="bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white px-6 py-3 rounded-md font-bold text-sm md:text-base shadow-[0_6px_25px_rgba(196,30,58,0.4)] transition-transform hover:-translate-y-0.5">
+            <button 
+            onClick={handleScrollToTop}
+            className="bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] cursor-pointer text-white px-6 py-3 rounded-md font-bold text-sm md:text-base shadow-[0_6px_25px_rgba(196,30,58,0.4)] transition-transform hover:-translate-y-0.5">
               Start Your Free Estimate
             </button>
           </div>
@@ -28,10 +37,10 @@ export default function Footer() {
               <ul className="space-y-3 md:space-y-4 text-[#cbd5e1] text-sm md:text-base font-medium">
                 <li>✓ Owner-Operated</li>
                 <li>✓ 5.0 Google Rating</li>
-                <li>✓ Texas Licensed & Insured</li>
+                {/* <li>✓ Texas Licensed & Insured</li> */}
                 <li>✓ No Hidden Charges</li>
                 <li>✓ Employee Pricing Available</li>
-                <li>✓ My Crews Only—Never Subs</li>
+                <li>✓ My Crews Only— EVERYTIME</li>
               </ul>
             </div>
 
@@ -42,7 +51,7 @@ export default function Footer() {
                 <li>• Free roof inspection</li>
                 <li>• Honest, detailed estimate</li>
                 <li>• Price locked in—no surprises</li>
-                <li>• Premium GAF materials</li>
+                <li>• Premium materials</li>
                 <li>• Financing available</li>
                 <li>• Most roofs done in 1 day</li>
               </ul>
@@ -50,11 +59,12 @@ export default function Footer() {
 
             {/* Column 4: Serving DFW */}
             <div>
-              <h3 className="text-primary text-lg md:text-xl font-bold mb-4">Serving Dallas-Fort Worth</h3>
-              <p className="text-[#cbd5e1] text-sm md:text-base leading-relaxed mb-6 font-medium">
+              <h3 className="text-primary text-lg md:text-xl font-bold mb-4">Serving ALL OF TEXAS & OKLAHOMA
+              </h3>
+              {/* <p className="text-[#cbd5e1] text-sm md:text-base leading-relaxed mb-6 font-medium">
                 Dallas, Fort Worth, Arlington, Plano, McKinney, Frisco, Irving, Garland, Grand Prairie, Denton, Mesquite, Carrollton, Richardson, Lewisville, and all surrounding DFW communities.
-              </p>
-              <p className="text-[#c41e3a] text-sm md:text-base font-bold">
+              </p> */}
+              <p className="text-[#cbd5e1] text-sm md:text-base ">
                 Employee Pricing Available Now
               </p>
             </div>
@@ -69,7 +79,9 @@ export default function Footer() {
           <p className="text-white text-base md:text-xl md:max-w-4xl mx-auto leading-relaxed mb-6">
             <span className="font-bold">Still thinking it over?</span> That&apos;s smart—a new roof is a big investment. Let&apos;s just talk—see if we&apos;re a good fit, get your questions answered, and go from there. Zero pressure, I promise. That&apos;s the Texas Precision pledge.
           </p>
-          <button className="bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white px-8 py-3.5 rounded-md font-bold text-base shadow-md transition-transform hover:-translate-y-0.5">
+          <button
+            onClick={handleScrollToTop}
+           className="bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] cursor-pointer text-white px-8 py-3.5 rounded-md font-bold text-base shadow-md transition-transform hover:-translate-y-0.5">
             Start My 60-Second Estimate
           </button>
         </div>

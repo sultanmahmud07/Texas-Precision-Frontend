@@ -1,11 +1,19 @@
-
+"use client";
 export default function UrgencyStrip() {
+  // Smooth scroll handler
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
   return (
     <section className="py-8 pt-4 md:pb-14 font-sans bg-white">
       <div className="main-container max-w-5xl mx-auto">
-        
+
         {/* --- Inline Styles for Custom Animations & Backgrounds --- */}
-        <style dangerouslySetInnerHTML={{__html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           @keyframes shimmer {
             0% { left: -100%; }
             100% { left: 100%; }
@@ -44,7 +52,7 @@ export default function UrgencyStrip() {
 
         {/* --- Main Container --- */}
         <div className="urgency-strip-section p-8 md:p-14 lg:p-16 flex flex-col items-center justify-center text-center">
-          
+
           {/* Top Pill Badge */}
           <div className="relative z-10 inline-block border border-white/40 bg-white/10 text-white text-[0.65rem] md:text-xs font-extrabold uppercase tracking-widest px-5 py-1.5 md:py-3 rounded-full mb-6 backdrop-blur-sm">
             Truth in Pricing
@@ -57,8 +65,8 @@ export default function UrgencyStrip() {
 
           {/* Paragraph */}
           <p className="relative z-10 text-white/90 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto mb-8 font-medium">
-            Most roofing companies add 15-25% to your quote just for sales commissions. 
-            At Texas Precision Roofing, there&apos;s no middleman—just honest pricing from the 
+            Most roofing companies add 15-25% to your quote just for sales commissions.
+            At Texas Precision Roofing, there&apos;s no middleman—just honest pricing from the
             owner who actually does the work.
           </p>
 
@@ -76,7 +84,9 @@ export default function UrgencyStrip() {
           </div>
 
           {/* CTA Button */}
-          <button className="relative z-10 bg-white text-[#a01830] hover:text-[#c41e3a] font-extrabold text-sm md:text-base uppercase px-8 py-4 md:px-10 rounded-xl shadow-xl transition-all transform hover:-translate-y-1 hover:shadow-2xl">
+          <button
+            onClick={handleScrollToTop}
+            className="relative z-10 cursor-pointer bg-white text-[#a01830] hover:text-[#c41e3a] font-extrabold text-sm md:text-base uppercase px-8 py-4 md:px-10 rounded-xl shadow-xl transition-all transform hover:-translate-y-1 hover:shadow-2xl">
             Get My Honest Quote
           </button>
 

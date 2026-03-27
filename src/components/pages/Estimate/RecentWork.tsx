@@ -12,11 +12,11 @@ import "slick-carousel/slick/slick-theme.css";
 // --- Mock Data ---
 // Using your specified path format
 const recentWorks = [
-  { id: 1, src: "/estimate/gallery-1.webp", alt: "Recent roof installation in DFW - 1" },
-  { id: 2, src: "/estimate/gallery-2.webp", alt: "Recent roof installation in DFW - 2" },
-  { id: 3, src: "/estimate/gallery-3.webp", alt: "Recent roof installation in DFW - 3" },
-  { id: 4, src: "/estimate/gallery-4.webp", alt: "Recent roof installation in DFW - 4" },
-  { id: 5, src: "/estimate/gallery-5.webp", alt: "Recent roof installation in DFW - 5" },
+  { id: 1, src: "/estimate/gallery-1.webp", alt: "Recent roof installation in - 1" },
+  { id: 2, src: "/estimate/gallery-2.webp", alt: "Recent roof installation in - 2" },
+  { id: 3, src: "/estimate/gallery-3.webp", alt: "Recent roof installation in - 3" },
+  { id: 4, src: "/estimate/gallery-4.webp", alt: "Recent roof installation in - 4" },
+  { id: 5, src: "/estimate/gallery-5.webp", alt: "Recent roof installation in - 5" },
 ];
 
 // --- Custom Arrows with strict TypeScript typing ---
@@ -102,7 +102,7 @@ export default function RecentWork() {
             Our Recent Work
           </h2>
           <p className="text-gray-500 font-medium text-sm md:text-base">
-            Real roofs we&apos;ve installed for DFW homeowners
+            Real roofs we&apos;ve installed for homeowners
           </p>
         </div>
 

@@ -30,7 +30,13 @@ export default function EmployeePricingOffer() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentDate(date);
   }, []);
-
+    // Smooth scroll handler
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
   return (
     <section className="py-4 md:py-8 font-sans">
       <div className="main-container max-w-4xl mx-auto">
@@ -53,7 +59,7 @@ export default function EmployeePricingOffer() {
                                     {/* Text Content */}
                                     <p className="text-[#951429] text-sm md:text-base leading-snug font-medium">
                                           <span className="font-bold">Spring storm season approaching: </span>
-                                          March rains and hail can expose weak spots. Get ahead of the problem with a free roof inspection.
+                                          Texas rains and hail can expose weak spots. Get ahead of the problem with a free roof inspection.
                                     </p>
                               </motion.div>
           <motion.div
@@ -76,7 +82,7 @@ export default function EmployeePricingOffer() {
 
               {/* Description */}
               <p className="text-[#475569] font-medium text-sm md:text-lg leading-relaxed max-w-4xl mx-auto mb-5 md:mb-8">
-                For a limited time, I&apos;m offering my employee pricing to DFW
+                For a limited time, I&apos;m offering my employee pricing to
                 homeowners. This is my absolute best rate—the same price my own
                 family pays. No negotiation needed, no games.
               </p>
@@ -89,7 +95,7 @@ export default function EmployeePricingOffer() {
                 </div>
                 <div className="flex items-center">
                   <Check className="w-5 h-5 text-primary mr-2" strokeWidth={3} />
-                  Premium GAF materials
+                  Premium materials
                 </div>
                 <div className="flex items-center">
                   <Check className="w-5 h-5 text-primary mr-2" strokeWidth={3} />
@@ -98,7 +104,9 @@ export default function EmployeePricingOffer() {
               </div>
 
               {/* CTA Button */}
-              <button className="bg-primary hover:bg-red-800 text-white font-extrabold text-base md:text-xl uppercase px-8 py-4 md:px-12 md:py-5 rounded-xl shadow-[0_10px_30px_rgba(196,30,58,0.4)] transition-all transform hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(196,30,58,0.5)] mb-4">
+              <button 
+                onClick={handleScrollToTop}
+                className="bg-primary cursor-pointer hover:bg-red-800 text-white font-extrabold text-base md:text-xl uppercase px-8 py-4 md:px-12 md:py-5 rounded-xl shadow-[0_10px_30px_rgba(196,30,58,0.4)] transition-all transform hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(196,30,58,0.5)] mb-4">
                 Claim Employee Pricing Now
               </button>
 

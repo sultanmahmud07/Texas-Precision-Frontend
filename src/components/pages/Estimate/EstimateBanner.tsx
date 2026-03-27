@@ -1,5 +1,6 @@
 import Image from "next/image";
 import EstimateForm from "./EstimateForm";
+import LiveVisitorBadge from "@/components/shared/LiveVisitorBadge";
 
 export default function EstimateBanner() {
   return (
@@ -133,18 +134,12 @@ export default function EstimateBanner() {
           </div>
           <div className="bg-[#ffffff1a] border border-white/10 px-4 py-2 md:py-4 rounded-md shadow-md transition-transform hover:-translate-y-1">
             <p className="text-primary font-black text-lg md:text-xl">TX</p>
-            <p className="text-[#ffffffd9] text-[0.55rem] md:text-xs font-semibold uppercase tracking-wider">Licensed & Insured</p>
+            <p className="text-[#ffffffd9] text-[0.55rem] md:text-xs font-semibold uppercase tracking-wider">Insured</p>
           </div>
         </div>
 
         {/* Live Viewing Badge */}
-        <div className="my-5 bg-white px-4 py-2 rounded-md shadow-lg flex items-center text-xs font-semibold text-[#1e293b]">
-          <span className="relative flex h-3 w-3 mr-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c41e3a] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#c41e3a]"></span>
-          </span>
-          <span className="text-[#c41e3a] mr-1">21</span> DFW homeowners viewing this offer right now
-        </div>
+       <LiveVisitorBadge />
 
       </div>
     </section>

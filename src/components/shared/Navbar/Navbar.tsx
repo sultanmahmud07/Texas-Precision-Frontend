@@ -29,7 +29,7 @@ const Navbar = () => {
 
             {/* Pill Badge for Location */}
             <span className="bg-[#c41e3a] text-white px-2.5 py-1 rounded-full font-bold shadow-sm">
-              Dallas-Fort Worth Homeowners
+              ALL Homeowners
             </span>
 
             {/* Limited Time Text */}

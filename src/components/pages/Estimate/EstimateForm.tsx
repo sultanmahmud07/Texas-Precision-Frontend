@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Check, ChevronLeft, ChevronRight, Clock, MapPin } from "lucide-react";
+import { toast } from "sonner";
 
 // --- Form Options Data ---
 const step1Options = ["Single Family Home", "Townhome or Duplex", "Manufactured or Mobile", "Commercial"];
@@ -54,9 +55,9 @@ export default function EstimateForm() {
     setIsSubmitting(true);
     // Here you would typically send `formData` to your backend/API
     console.log("Form Submitted successfully!", formData);
-    
+
     setTimeout(() => {
-      alert("Estimate request sent successfully!");
+      toast.success("Estimate request sent successfully!");
       setIsSubmitting(false);
       // Optional: reset form or redirect here
     }, 1000);
@@ -80,9 +81,10 @@ export default function EstimateForm() {
 
   return (
     <div className="relative w-full max-w-md md:max-w-lg mx-auto mt-5 font-sans">
-      
+
       {/* Inline Styles for Custom Floating Animation & Gradients */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes floatUpDown {
           0%, 100% { transform: translateY(0) rotate(-4deg); }
           50% { transform: translateY(-6px) rotate(-4deg); }
@@ -98,14 +100,14 @@ export default function EstimateForm() {
       {/* Floating Angled Badge */}
       <div className="absolute -top-5 -left-2 md:-left-8 z-20 bg-[#0f2744] border-2 border-white/20 text-white text-[0.65rem] md:text-xs font-bold px-4 py-1.5 rounded-md flex items-center shadow-xl animate-float">
         <MapPin className="w-3.5 h-3.5 text-primary mr-1.5" />
-        EXCLUSIVE TO <span className="text-primary ml-1">DFW</span> AREA
+        EXCLUSIVE TO <span className="text-primary ml-1">TEXAS</span>
       </div>
 
       <div className="bg-white rounded-xl shadow-2xl overflow-hidden  relative z-10">
-        
+
         {/* Header Section */}
         <div className="form-cta-text text-white text-center pt-10 pb-6 px-4 relative">
-          
+
           {/* Active Light Dot + Limited Spots */}
           <div className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-white/10 border border-white/20 text-xs md:text-sm font-bold px-3 py-1 rounded-full flex items-center backdrop-blur-sm">
             {/* Glowing Yellow Pulse Dot */}
@@ -126,15 +128,15 @@ export default function EstimateForm() {
         </div>
 
         {/* Progress Bar */}
-       {/* Progress Bar */}
+        {/* Progress Bar */}
         <div className="px-6 pt-5">
           <div className="flex justify-between text-xs font-bold text-gray-500 mb-2">
             <span>Step <span className="text-[#c41e3a]">{currentStep}</span> of 6</span>
             <span className="text-[#c41e3a]">{progressPercent}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5 mb-6">
-            <div 
-              className="bg-linear-to-r from-[#0f2744] to-primary h-1.5 rounded-full transition-all duration-500 ease-out" 
+            <div
+              className="bg-linear-to-r from-[#0f2744] to-primary h-1.5 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progressPercent}%` }}
             ></div>
           </div>
@@ -142,7 +144,7 @@ export default function EstimateForm() {
 
         {/* --- FORM BODY --- */}
         <div className="px-6 pb-6 min-h-[300px] flex flex-col">
-          
+
           {/* STEP 1: Home Type */}
           {currentStep === 1 && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
@@ -151,11 +153,11 @@ export default function EstimateForm() {
               </h3>
               <div className="space-y-3">
                 {step1Options.map((option) => (
-                  <RadioOption 
-                    key={option} 
-                    label={option} 
-                    selected={formData.homeType === option} 
-                    onClick={() => handleOptionSelect("homeType", option)} 
+                  <RadioOption
+                    key={option}
+                    label={option}
+                    selected={formData.homeType === option}
+                    onClick={() => handleOptionSelect("homeType", option)}
                   />
                 ))}
               </div>
@@ -170,11 +172,11 @@ export default function EstimateForm() {
               </h3>
               <div className="space-y-3">
                 {step2Options.map((option) => (
-                  <RadioOption 
-                    key={option} 
-                    label={option} 
-                    selected={formData.squareFeet === option} 
-                    onClick={() => handleOptionSelect("squareFeet", option)} 
+                  <RadioOption
+                    key={option}
+                    label={option}
+                    selected={formData.squareFeet === option}
+                    onClick={() => handleOptionSelect("squareFeet", option)}
                   />
                 ))}
               </div>
@@ -189,11 +191,11 @@ export default function EstimateForm() {
               </h3>
               <div className="space-y-3">
                 {step3Options.map((option) => (
-                  <RadioOption 
-                    key={option} 
-                    label={option} 
-                    selected={formData.timeline === option} 
-                    onClick={() => handleOptionSelect("timeline", option)} 
+                  <RadioOption
+                    key={option}
+                    label={option}
+                    selected={formData.timeline === option}
+                    onClick={() => handleOptionSelect("timeline", option)}
                   />
                 ))}
               </div>
@@ -208,11 +210,11 @@ export default function EstimateForm() {
               </h3>
               <div className="space-y-3">
                 {step4Options.map((option) => (
-                  <RadioOption 
-                    key={option} 
-                    label={option} 
-                    selected={formData.paymentMethod === option} 
-                    onClick={() => handleOptionSelect("paymentMethod", option)} 
+                  <RadioOption
+                    key={option}
+                    label={option}
+                    selected={formData.paymentMethod === option}
+                    onClick={() => handleOptionSelect("paymentMethod", option)}
                   />
                 ))}
               </div>
@@ -226,26 +228,26 @@ export default function EstimateForm() {
                 What&apos;s your <span className="text-[#c41e3a]">property address</span>?
               </h3>
               <div className="space-y-4">
-                <input 
-                  type="text" placeholder="Street Address" 
+                <input
+                  type="text" placeholder="Street Address"
                   value={formData.streetAddress} onChange={(e) => handleChange("streetAddress", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                 />
                 <div className="flex gap-4">
-                  <input 
-                    type="text" placeholder="City" 
+                  <input
+                    type="text" placeholder="City"
                     value={formData.city} onChange={(e) => handleChange("city", e.target.value)}
-                    className="w-2/3 p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                    className="w-2/3 p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                   />
-                  <input 
+                  <input
                     type="text" value={formData.state} disabled
-                    className="w-1/3 p-3.5 border-2 border-gray-200 bg-gray-50 rounded-lg text-gray-500 font-medium text-center" 
+                    className="w-1/3 p-3.5 border-2 border-gray-200 bg-gray-50 rounded-lg text-gray-500 font-medium text-center"
                   />
                 </div>
-                <input 
-                  type="text" placeholder="Zip Code" 
+                <input
+                  type="text" placeholder="Zip Code"
                   value={formData.zipCode} onChange={(e) => handleChange("zipCode", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                 />
               </div>
             </div>
@@ -258,20 +260,20 @@ export default function EstimateForm() {
                 Almost done! <span className="text-[#c41e3a]">How can we reach you</span>?
               </h3>
               <div className="space-y-4">
-                <input 
-                  type="text" placeholder="Full Name" 
+                <input
+                  type="text" placeholder="Full Name"
                   value={formData.name} onChange={(e) => handleChange("name", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                 />
-                <input 
-                  type="email" placeholder="Email Address" 
+                <input
+                  type="email" placeholder="Email Address"
                   value={formData.email} onChange={(e) => handleChange("email", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                 />
-                <input 
-                  type="tel" placeholder="Phone Number" 
+                <input
+                  type="tel" placeholder="Phone Number"
                   value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium" 
+                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
                 />
               </div>
             </div>
@@ -284,28 +286,26 @@ export default function EstimateForm() {
                 <ChevronLeft className="w-4 h-4 mr-1" /> BACK
               </button>
             )}
-            
+
             {currentStep < 6 ? (
-              <button 
+              <button
                 onClick={nextStep}
                 disabled={!isStepValid()}
-                className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${
-                  isStepValid() 
-                  ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5" 
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
-                }`}
+                className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${isStepValid()
+                    ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                  }`}
               >
                 CONTINUE <ChevronRight className="w-4 h-4 ml-1" />
               </button>
             ) : (
-              <button 
+              <button
                 onClick={handleSubmit}
                 disabled={!isStepValid() || isSubmitting}
-                className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${
-                  isStepValid() && !isSubmitting
-                  ? "bg-primary text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5" 
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
-                }`}
+                className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${isStepValid() && !isSubmitting
+                    ? "bg-primary text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                  }`}
               >
                 {isSubmitting ? "PROCESSING..." : "GET MY ESTIMATE →"}
               </button>
@@ -317,7 +317,7 @@ export default function EstimateForm() {
         {/* Footer Guarantees */}
         <div className="bg-[#0f2744] py-3 md:py-4 px-4 flex justify-between items-center text-[0.65rem] text-xs md:text-sm text-white/80 font-bold">
           <span className="flex items-center"><Check className="w-3 h-3 text-primary mr-1" /> Owner-Operated</span>
-          <span className="flex items-center"><Check className="w-3 h-3 text-primary mr-1" /> Licensed & Insured</span>
+          <span className="flex items-center"><Check className="w-3 h-3 text-primary mr-1" /> Insured</span>
           <span className="flex items-center"><Check className="w-3 h-3 text-primary mr-1" /> Zero Obligation</span>
         </div>
       </div>
@@ -330,15 +330,13 @@ function RadioOption({ label, selected, onClick }: { label: string, selected: bo
   return (
     <label
       onClick={onClick}
-      className={`flex items-center p-3.5 md:p-4 border-2 rounded-lg cursor-pointer transition-all ${
-        selected
+      className={`flex items-center p-3.5 md:p-4 border-2 rounded-lg cursor-pointer transition-all ${selected
           ? "border-primary bg-[#fef2f2]"
           : "border-gray-100 bg-gray-50/50 hover:border-gray-300"
-      }`}
+        }`}
     >
-      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 shadow-inner ${
-        selected ? "border-primary bg-[#c41e3a]" : "border-gray-300 bg-white"
-      }`}>
+      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 shadow-inner ${selected ? "border-primary bg-[#c41e3a]" : "border-gray-300 bg-white"
+        }`}>
         {selected && <Check className="w-3 h-3 text-white" strokeWidth={4} />}
       </div>
       <span className={`font-semibold text-sm md:text-base ${selected ? "text-[#c41e3a]" : "text-gray-700"}`}>

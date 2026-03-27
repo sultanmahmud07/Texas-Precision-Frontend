@@ -60,7 +60,7 @@ export default function TestimonialSection() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-[#0f2744] text-2xl md:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
-            What DFW Homeowners Say
+            What Homeowners Say
           </h2>
           <p className="text-gray-500 font-medium text-sm md:text-lg">
             Real reviews from real customers • 5.0/5 Google rating

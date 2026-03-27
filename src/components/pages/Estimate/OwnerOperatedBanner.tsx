@@ -28,7 +28,7 @@ export default function OwnerOperatedBanner() {
 
           {/* Paragraph Description */}
           <p className="text-white/90 text-sm md:text-base lg:text-lg leading-[1.7] max-w-4xl mx-auto font-medium pm-4">
-            I&apos;m the guy who actually does the work. We use premium GAF materials. We employ skilled 
+            I&apos;m the guy who actually does the work. We use premium materials. We employ skilled 
             craftsmen. We just don&apos;t hide behind industry pricing games that cost you thousands. When you 
             work with Texas Precision Roofing, you get an honest, transparent experience—exactly how it 
             should be.

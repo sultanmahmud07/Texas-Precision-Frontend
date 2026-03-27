@@ -28,7 +28,7 @@ const goodCardData = {
     "Employee pricing—our absolute best rate",
     "No sales team = no commission markups",
     "No hidden costs—price locked at estimate",
-    "Only MY crews—never random subs",
+    "Only MY CREWS - EVERYTIME!",
     "Premium materials, honest craftsmen",
   ],
 };
