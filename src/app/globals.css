@@ -128,6 +128,11 @@ a {
   max-width: 1200px;
   margin: auto;
 }
+.second-container {
+  max-width: 800px;
+  margin: auto;
+}
+
 
 .offer-header {
   background: linear-gradient(135deg, #0f2744 0%, #1a365d 100%);
@@ -185,6 +190,9 @@ a {
   .main-container {
     width: 94%;
   }
+  .second-container {
+    width: 94%;
+  }
 }
 
 /* ============================
@@ -197,6 +205,9 @@ a {
   }
 
   .main-container {
+    width: 96%;
+  }
+  .second-container {
     width: 96%;
   }
 }
