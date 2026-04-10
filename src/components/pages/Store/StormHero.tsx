@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Search, ShieldCheck, Check, Ban } from "lucide-react";
-import { toast } from "sonner";
 import InspectForm from "./InspectForm";
 
 export default function StormHero() {
