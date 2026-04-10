@@ -36,7 +36,7 @@ const damagePoints = [
   {
     id: 6,
     icon: "🌳",
-    title: "Tornado & Debris Impact",
+    title: "Tornado debris impact can compromise",
     desc: "With tornadoes confirmed near Potosi and Baird, debris impact can compromise underlayment even when the roof looks intact.",
   },
 ];

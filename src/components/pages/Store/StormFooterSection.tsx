@@ -77,7 +77,7 @@ export default function StormFooterSection() {
           {/* Business Info */}
           <div className="space-y-1.5 mb-10">
             <p className="text-gray-400 text-[0.85rem] md:text-sm font-medium">
-              Texas Precision Roofing • Abilene & Big Country
+              Texas Precision Roofing •
             </p>
             <p className="text-gray-400 text-[0.85rem] md:text-sm font-medium">
               Owner-operated by Josh • 12+ years experience • <a href="tel:5555555555" className="text-[#06b6d4] hover:underline transition-all">Call/Text Anytime</a>
@@ -89,7 +89,7 @@ export default function StormFooterSection() {
             <div className="space-y-4 text-gray-500 text-[0.65rem] md:text-xs leading-relaxed">
               
               <p>
-                <strong className="text-gray-400">Disclaimer:</strong> The storm zone check tool cross-references your ZIP code with recent severe weather data for the Abilene & Big Country area. Results are informational and based on documented storm paths. Actual damage varies by location, roof type, and other factors. A professional inspection is the only way to confirm damage. Texas Precision Roofing provides free inspections with no obligation.
+                <strong className="text-gray-400">Disclaimer:</strong> The storm zone check tool cross-references your ZIP code with recent severe weather data for the affected areas. Results are informational and based on documented storm paths. Actual damage varies by location, roof type, and other factors. A professional inspection is the only way to confirm damage. Texas Precision Roofing provides free inspections with no obligation.
               </p>
               
               <p>
@@ -97,7 +97,7 @@ export default function StormFooterSection() {
               </p>
               
               <p className="pt-2 border-t border-white/5 mt-4">
-                © 2026 Texas Precision Roofing. All rights reserved. Licensed & Insured in Texas
+                © 2026 Texas Precision Roofing. All rights reserved. Insured in Texas
               </p>
 
             </div>

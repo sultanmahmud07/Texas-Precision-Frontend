@@ -54,7 +54,7 @@ export default function StormReviewsSection() {
             5.0 Google Rating
           </h2>
           <p className="text-gray-400 text-sm md:text-[0.95em] font-medium">
-            What Abilene & Big Country homeowners say about Texas Precision Roofing
+            What homeowners say about Texas Precision Roofing
           </p>
         </div>
 

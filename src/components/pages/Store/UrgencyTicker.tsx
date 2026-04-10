@@ -21,7 +21,7 @@ const tickerItems = [
     highlightFirst: false,
     preText: "Texas Precision Roofing is",
     highlightText: "owner-operated",
-    standardText: "— Josh inspects your roof personally",
+    standardText: "— Josh and team inspect your roof",
   },
   {
     id: 4,
@@ -38,9 +38,10 @@ export default function UrgencyTicker() {
   return (
     // `.urgency-ticker` translated to Tailwind
     <section className="bg-[#050a12] border-y border-[#06b6d41f] py-3 md:py-3.5 overflow-hidden relative backdrop-blur-md font-sans">
-      
+
       {/* --- Inline Styles for Custom Scroll Animation --- */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes ticker-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-33.33%); } /* Shifts exactly 1/3 of the width (1 set of items) */
@@ -57,10 +58,10 @@ export default function UrgencyTicker() {
       {/* `.ticker-track` translated to Tailwind */}
       {/* w-max prevents wrapping, gap-[50px] sets spacing between items */}
       <div className="flex w-max animate-ticker gap-10 md:gap-[50px] pl-10 md:pl-[50px]">
-        
+
         {duplicatedItems.map((item, index) => (
           <div key={`${item.id}-${index}`} className="flex items-center gap-2 md:gap-3 whitespace-nowrap">
-            
+
             {/* Live Red Pulsing Dot */}
             <div className="relative flex items-center justify-center w-2 h-2 md:w-2 md:h-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75 animate-ping"></span>
@@ -82,7 +83,7 @@ export default function UrgencyTicker() {
 
           </div>
         ))}
-        
+
       </div>
     </section>
   );

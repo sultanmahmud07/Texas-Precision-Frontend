@@ -76,7 +76,7 @@ export default function UrgencyStrip() {
               <span role="img" aria-label="Money Bag">💰</span> $10K+ avg savings
             </div>
             <div className="flex items-center gap-2 border border-white/30 bg-white/10 text-white text-xs md:text-base font-semibold px-5 py-2.5 md:py-4 md:px-7 rounded-full backdrop-blur-sm transition-transform hover:scale-105 cursor-default">
-              <span role="img" aria-label="House">🏠</span> Premium GAF materials
+              <span role="img" aria-label="House">🏠</span> Premium materials
             </div>
             <div className="flex items-center gap-2 border border-white/30 bg-white/10 text-white text-xs md:text-base font-semibold px-5 py-2.5 md:py-4 md:px-7 rounded-full backdrop-blur-sm transition-transform hover:scale-105 cursor-default">
               <span role="img" aria-label="Lightning Bolt">⚡</span> Done in 1 day

@@ -75,7 +75,7 @@ export default function StormHero() {
                         <div className="inline-flex items-center justify-center gap-2 bg-linear-to-br from-red-500/20 to-red-500/5 border border-red-500/40 text-red-300 px-5 py-2 rounded-full text-[0.65rem] md:text-xs font-bold uppercase tracking-[2px] mb-8 shadow-[0_0_20px_rgba(239,68,68,0.15)] animate-pulse">
                               <span className="mr-2"> ⚠️</span>
                               {/* <AlertTriangle className="w-3.5 h-3.5 text-red-400" /> */}
-                              ABILENE STORM ALERT — MARCH 2026
+                              STORM ALERT
                         </div>
 
                         {/* Headlines */}

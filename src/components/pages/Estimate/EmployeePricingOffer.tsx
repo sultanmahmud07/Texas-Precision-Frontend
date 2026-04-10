@@ -99,7 +99,7 @@ export default function EmployeePricingOffer() {
                 </div>
                 <div className="flex items-center">
                   <Check className="w-5 h-5 text-primary mr-2" strokeWidth={3} />
-                  My own crews—never subs
+                  My crews—every time!
                 </div>
               </div>
 

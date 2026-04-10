@@ -6,7 +6,7 @@ const steps = [
   {
     id: 1,
     title: "Free Inspection",
-    desc: "Josh climbs up and inspects every inch, documenting damage with photos.",
+    desc: "Josh and team climbs up and inspects every inch, documenting damage with photos.",
   },
   {
     id: 2,

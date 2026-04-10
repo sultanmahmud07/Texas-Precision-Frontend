@@ -24,7 +24,7 @@ const faqData = [
   },
   {
     question: "How quickly can you come out?",
-    answer: "We typically offer same-day or next-day inspections, especially immediately following major storm events in the DFW and Abilene areas. Give us a call or submit your ZIP code to grab the earliest available slot."
+    answer: "We typically offer same-day or next-day inspections, especially immediately following major storm events. Give us a call or submit your ZIP code to grab the earliest available slot."
   }
 ];
 

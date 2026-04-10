@@ -118,7 +118,7 @@ export default function Footer() {
         <div className="text-center text-[#64748b] text-[0.7rem] md:text-xs font-medium space-y-2 pb-4">
           <p>© 2026 Texas Precision Roofing & Construction. All rights reserved.</p>
           <p>Owner-Operated • 5.0 Google Rating • Licensed & Insured</p>
-          <p>Dallas-Fort Worth Area • (972) 782-5603</p>
+          <p>Dallas-Fort Worth Area • 469-514-8205</p>
         </div>
 
       </div>

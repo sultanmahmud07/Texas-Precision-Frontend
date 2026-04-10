@@ -36,7 +36,7 @@ export default function StormGallerySection() {
         {/* Header Content */}
         <div className="text-center mb-10 md:mb-12">
           <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-extrabold mb-3 tracking-tight">
-            Our Recent Work in Abilene & Big Country
+            Our Recent Work
           </h2>
           <p className="text-white/60 text-sm md:text-base font-medium">
             Real roofs. Real results. All inspected and repaired by Josh.

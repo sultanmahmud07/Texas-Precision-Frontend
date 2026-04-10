@@ -5,6 +5,7 @@ import FaqSection from "@/components/pages/Estimate/FaqSection";
 import FinalCtaSection from "@/components/pages/Estimate/FinalCtaSection";
 import IndustrySecrets from "@/components/pages/Estimate/IndustrySecrets";
 import OwnerOperatedBanner from "@/components/pages/Estimate/OwnerOperatedBanner";
+import PricingToastAlert from "@/components/pages/Estimate/PricingToastAlert";
 import RecentWork from "@/components/pages/Estimate/RecentWork";
 import TestimonialSection from "@/components/pages/Estimate/TestimonialSection";
 import TexasPrecisionPledge from "@/components/pages/Estimate/TexasPrecisionPledge";
@@ -30,6 +31,7 @@ export default function Home() {
       <TexasPrecisionPledge />
       <FinalCtaSection />
       <Footer />
+      <PricingToastAlert />
     </div>
   );
 }
