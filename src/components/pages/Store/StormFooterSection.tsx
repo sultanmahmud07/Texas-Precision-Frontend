@@ -80,7 +80,7 @@ export default function StormFooterSection() {
               Texas Precision Roofing •
             </p>
             <p className="text-gray-400 text-[0.85rem] md:text-sm font-medium">
-              Owner-operated by Josh • 12+ years experience • <a href="tel:5555555555" className="text-[#06b6d4] hover:underline transition-all">Call/Text Anytime</a>
+              Owner-operated by Josh • 12+ years experience • <a href="tel:469-514-8205" className="text-[#06b6d4] hover:underline transition-all">Call/Text Anytime</a>
             </p>
           </div>
 
