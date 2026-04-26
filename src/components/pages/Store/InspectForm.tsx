@@ -1,8 +1,10 @@
 "use client";
-
-import React, { useState } from "react";
-import { Check, ChevronLeft, Clock, ShieldCheck } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Check, ChevronLeft, Clock, ShieldCheck, Zap } from "lucide-react";
 import { toast } from "sonner";
+import { IAddress } from "@/types/address.interface";
+import { BASEURL } from "@/utils/constant";
 
 // --- Form Options Data (Updated to match new reference images) ---
 const step1Options = [
@@ -30,6 +32,43 @@ const step3Options = [
 export default function InspectForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const [validZips, setValidZips] = useState<string[]>([]);
+  const [zipError, setZipError] = useState(false);
+
+  // Fetch valid addresses from API on component mount
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const res = await fetch(`${BASEURL}/address`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          const zips = json.data.map((item: IAddress) => item.zip);
+          setValidZips(zips);
+        }
+      } catch (error) {
+        console.error("Failed to fetch addresses", error);
+      }
+    };
+    fetchAddresses();
+  }, []);
+
+  // Custom handler for ZIP Code to format and validate
+  const handleZipChange = (value: string) => {
+    const onlyNums = value.replace(/\D/g, '').slice(0, 5); // Max 5 digits
+    handleChange("zipCode", onlyNums);
+
+    // Only validate when 5 digits are entered
+    if (onlyNums.length === 5) {
+      if (!validZips.includes(onlyNums)) {
+        setZipError(true);
+      } else {
+        setZipError(false);
+      }
+    } else {
+      setZipError(false); // Hide error while typing
+    }
+  };
 
   // --- Centralized Form State (Updated keys for new questions) ---
   const [formData, setFormData] = useState({
@@ -38,11 +77,12 @@ export default function InspectForm() {
     urgency: "",
     streetAddress: "",
     city: "",
-    state: "TX", 
+    state: "TX",
     zipCode: "",
     name: "",
     email: "",
     phone: "",
+    serviceType: "STANDARD_ESTIMATE" 
   });
 
   // --- Navigation & Handlers (Logic remains unchanged) ---
@@ -69,12 +109,14 @@ export default function InspectForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Submit logic...
-    console.log("Form Submitted successfully!", formData);
+
+    // Convert formData object into a URL query string
+    const queryParams = new URLSearchParams(formData as Record<string, string>).toString();
 
     setTimeout(() => {
       toast.success("Estimate request sent successfully!");
       setIsSubmitting(false);
+      router.push(`/storm-damage/book?${queryParams}`);
     }, 1000);
   };
 
@@ -84,7 +126,8 @@ export default function InspectForm() {
       case 1: return !!formData.homeType;
       case 2: return !!formData.damageNoticed;
       case 3: return !!formData.urgency;
-      case 4: return !!formData.streetAddress && !!formData.city && !!formData.zipCode;
+      // Step 4 now requires a 5-digit ZIP and NO zipError
+      case 4: return !!formData.streetAddress && !!formData.city && formData.zipCode.length === 5 && !zipError;
       case 5: return !!formData.name && !!formData.email && !!formData.phone;
       default: return false;
     }
@@ -95,7 +138,7 @@ export default function InspectForm() {
 
   return (
     <div className="relative text-start w-full max-w-[480px] mx-auto mt-6 font-sans">
-      
+
       {/* Main Card Container */}
       <div className="bg-[#1118276e] border border-gray-800 rounded-2xl shadow-2xl overflow-hidden relative z-10">
 
@@ -201,7 +244,6 @@ export default function InspectForm() {
               </div>
             </div>
           )}
-
           {/* STEP 4: Address */}
           {currentStep === 4 && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
@@ -220,7 +262,7 @@ export default function InspectForm() {
                     className="w-full p-3.5 bg-[#0a111a] border border-gray-700 rounded-lg outline-none focus:border-[#c41e3a] transition-colors text-white text-sm"
                   />
                 </div>
-                
+
                 <div className="flex gap-4">
                   <div className="w-[50%]">
                     <label className="block text-gray-300 text-sm font-bold mb-2">City</label>
@@ -240,16 +282,20 @@ export default function InspectForm() {
                   <div className="w-[30%]">
                     <label className="block text-gray-300 text-sm font-bold mb-2">ZIP</label>
                     <input
-                      type="text" placeholder="99950"
-                      value={formData.zipCode} onChange={(e) => handleChange("zipCode", e.target.value)}
-                      className="w-full p-3.5 bg-[#0a111a] border border-gray-700 rounded-lg outline-none focus:border-[#c41e3a] transition-colors text-white text-sm"
+                      type="text" placeholder="99950" maxLength={5}
+                      value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)}
+                      className={`w-full p-3.5 bg-[#0a111a] border rounded-lg outline-none transition-colors text-white text-sm ${zipError ? "border-[#c41e3a] focus:border-[#c41e3a] bg-[#c41e3a]/10" : "border-gray-700 focus:border-[#c41e3a]"
+                        }`}
                     />
                   </div>
                 </div>
 
-                <p className="text-[#c41e3a] text-[0.8rem] md:text-sm mt-4 leading-relaxed">
-                  We currently serve the Abilene & Big Country area. Please enter a valid ZIP code.
-                </p>
+                {/* Conditional Error Message */}
+                {zipError && (
+                  <p id="invalid-zip-error-message" className="text-[#c41e3a] md:text-xs font-semibold mt-4 animate-in fade-in">
+                    We currently serve the Abilene & Big Country area. Please enter a valid ZIP code.
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -295,8 +341,8 @@ export default function InspectForm() {
           {/* --- Bottom Navigation Buttons --- */}
           <div className="flex gap-3 mt-8 pt-4 border-t border-gray-800">
             {currentStep > 1 && (
-              <button 
-                onClick={prevStep} 
+              <button
+                onClick={prevStep}
                 className="py-3.5 px-5 md:px-8 bg-transparent text-gray-300 font-bold rounded-xl flex items-center justify-center hover:bg-white/5 border border-gray-700 transition-colors text-sm"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" /> Back
@@ -307,8 +353,7 @@ export default function InspectForm() {
               <button
                 onClick={nextStep}
                 disabled={!isStepValid()}
-                className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${
-                  isStepValid()
+                className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${isStepValid()
                     ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
                     : "bg-gray-800 text-gray-500 cursor-not-allowed"
                   }`}
@@ -319,8 +364,7 @@ export default function InspectForm() {
               <button
                 onClick={handleSubmit}
                 disabled={!isStepValid() || isSubmitting}
-                className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${
-                  isStepValid() && !isSubmitting
+                className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${isStepValid() && !isSubmitting
                     ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
                     : "bg-gray-800 text-gray-500 cursor-not-allowed"
                   }`}
@@ -348,8 +392,7 @@ function RadioOption({ label, icon, selected, onClick }: { label: string, icon: 
   return (
     <label
       onClick={onClick}
-      className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all ${
-        selected
+      className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all ${selected
           ? "border-[#c41e3a] bg-[#c41e3a]/5"
           : "border-gray-800 bg-white/2 hover:bg-white/4"
         }`}

@@ -1,10 +1,10 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Check, ChevronLeft, ChevronRight, Clock, MapPin } from "lucide-react";
 import { toast } from "sonner";
-
-// --- Form Options Data ---
+import { IAddress } from "@/types/address.interface";
+import { BASEURL } from "@/utils/constant";
 const step1Options = ["Single Family Home", "Townhome or Duplex", "Manufactured or Mobile", "Commercial"];
 const step2Options = ["Under 1,500", "1,500 to 2,500", "2,500 to 3,500", "3,500+"];
 const step3Options = ["ASAP - Emergency", "In the next 30 days", "More than a month from now"];
@@ -13,6 +13,43 @@ const step4Options = ["Cash or Check", "Credit Card", "Financing / Monthly payme
 export default function EstimateForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const [validZips, setValidZips] = useState<string[]>([]);
+  const [zipError, setZipError] = useState(false);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const res = await fetch(`${BASEURL}/address`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          console.log(json.data)
+          const zips = json.data.map((item: IAddress) => item.zip);
+          setValidZips(zips);
+        }
+      } catch (error) {
+        console.error("Failed to fetch addresses", error);
+      }
+    };
+    fetchAddresses();
+  }, []);
+
+  // Custom handler for ZIP Code to format and validate
+  const handleZipChange = (value: string) => {
+    const onlyNums = value.replace(/\D/g, '').slice(0, 5); // Max 5 digits
+    handleChange("zipCode", onlyNums);
+
+    // Only validate when 5 digits are entered
+    if (onlyNums.length === 5) {
+      if (!validZips.includes(onlyNums)) {
+        setZipError(true);
+      } else {
+        setZipError(false);
+      }
+    } else {
+      setZipError(false); // Hide error while typing
+    }
+  };
 
   // --- Centralized Form State ---
   const [formData, setFormData] = useState({
@@ -27,6 +64,7 @@ export default function EstimateForm() {
     name: "",
     email: "",
     phone: "",
+    serviceType: "DFW_ESTIMATE"
   });
 
   // --- Navigation & Handlers ---
@@ -53,13 +91,15 @@ export default function EstimateForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Here you would typically send `formData` to your backend/API
-    console.log("Form Submitted successfully!", formData);
+
+    // Convert formData object into a URL query string
+    const queryParams = new URLSearchParams(formData as Record<string, string>).toString();
 
     setTimeout(() => {
       toast.success("Estimate request sent successfully!");
       setIsSubmitting(false);
-      // Optional: reset form or redirect here
+      // Navigate to schedule page with data in URL
+      router.push(`/schedule?${queryParams}`);
     }, 1000);
   };
 
@@ -70,7 +110,8 @@ export default function EstimateForm() {
       case 2: return !!formData.squareFeet;
       case 3: return !!formData.timeline;
       case 4: return !!formData.paymentMethod;
-      case 5: return !!formData.streetAddress && !!formData.city && !!formData.zipCode;
+      // Step 5 requires 5 digits and NO zip error
+      case 5: return !!formData.streetAddress && !!formData.city && formData.zipCode.length === 5 && !zipError;
       case 6: return !!formData.name && !!formData.email && !!formData.phone;
       default: return false;
     }
@@ -244,12 +285,22 @@ export default function EstimateForm() {
                     className="w-1/3 p-3.5 border-2 border-gray-200 bg-gray-50 rounded-lg text-gray-500 font-medium text-center"
                   />
                 </div>
+
+                {/* Updated ZIP Input */}
                 <input
-                  type="text" placeholder="Zip Code"
-                  value={formData.zipCode} onChange={(e) => handleChange("zipCode", e.target.value)}
-                  className="w-full p-3.5 border-2 border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-gray-700 font-medium"
+                  type="text" placeholder="Zip Code" maxLength={5}
+                  value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)}
+                  className={`w-full p-3.5 border-2 rounded-lg outline-none transition-colors text-gray-700 font-medium ${zipError ? "border-[#c41e3a] focus:border-[#c41e3a] bg-red-50" : "border-gray-200 focus:border-primary"
+                    }`}
                 />
               </div>
+
+              {/* Conditional Error Message */}
+              {zipError && (
+                <span id="invalid-zip-error-message" className="text-[#c41e3a] text-xs font-semibold mt-2 block animate-in fade-in">
+                  Sorry, we don&apos;t currently service this area. Please enter a ZIP code in the Dallas-Fort Worth metro area.
+                </span>
+              )}
             </div>
           )}
 
@@ -292,8 +343,8 @@ export default function EstimateForm() {
                 onClick={nextStep}
                 disabled={!isStepValid()}
                 className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${isStepValid()
-                    ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                  ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
                   }`}
               >
                 CONTINUE <ChevronRight className="w-4 h-4 ml-1" />
@@ -303,8 +354,8 @@ export default function EstimateForm() {
                 onClick={handleSubmit}
                 disabled={!isStepValid() || isSubmitting}
                 className={`flex-2 py-3.5 font-bold rounded-lg flex items-center justify-center transition-all shadow-md text-sm ${isStepValid() && !isSubmitting
-                    ? "bg-primary text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                  ? "bg-primary text-white hover:bg-red-800 hover:shadow-lg hover:-translate-y-0.5"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
                   }`}
               >
                 {isSubmitting ? "PROCESSING..." : "GET MY ESTIMATE →"}
@@ -331,8 +382,8 @@ function RadioOption({ label, selected, onClick }: { label: string, selected: bo
     <label
       onClick={onClick}
       className={`flex items-center p-3.5 md:p-4 border-2 rounded-lg cursor-pointer transition-all ${selected
-          ? "border-primary bg-[#fef2f2]"
-          : "border-gray-100 bg-gray-50/50 hover:border-gray-300"
+        ? "border-primary bg-[#fef2f2]"
+        : "border-gray-100 bg-gray-50/50 hover:border-gray-300"
         }`}
     >
       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 shadow-inner ${selected ? "border-primary bg-[#c41e3a]" : "border-gray-300 bg-white"

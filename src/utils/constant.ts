@@ -1,3 +1,2 @@
 
-export const BASEURL = "https://api.t-power.com.au/v1";
-export const BASEURL_SOCKET = "https://api.t-power.com.au" 
+export const BASEURL = "http://localhost:9000/api/v1";
