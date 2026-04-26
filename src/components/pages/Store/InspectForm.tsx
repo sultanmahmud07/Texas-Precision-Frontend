@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronLeft, Clock, ShieldCheck, Zap } from "lucide-react";
+import { Check, ChevronLeft, Clock, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { IAddress } from "@/types/address.interface";
 import { BASEURL } from "@/utils/constant";
@@ -82,7 +82,7 @@ export default function InspectForm() {
     name: "",
     email: "",
     phone: "",
-    serviceType: "STANDARD_ESTIMATE" 
+    sender: "STANDARD_ESTIMATE" 
   });
 
   // --- Navigation & Handlers (Logic remains unchanged) ---
