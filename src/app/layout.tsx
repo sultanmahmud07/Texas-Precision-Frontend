@@ -11,7 +11,6 @@ const geistMono = Geist_Mono({
       variable: "--font-geist-mono",
       subsets: ["latin"],
 });
-// 2. Initialize Montserrat
 const montserrat = Montserrat({
       variable: "--font-montserrat",
       subsets: ["latin"],
