@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronLeft, Clock, ShieldCheck } from "lucide-react";
+import { Check, ChevronLeft, Clock, ShieldCheck, MapPin, Search } from "lucide-react";
 import { toast } from "sonner";
 import { IAddress } from "@/types/address.interface";
 import { BASEURL } from "@/utils/constant";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 // --- Form Options Data (Updated to match new reference images) ---
 const step1Options = [
@@ -35,6 +36,8 @@ export default function InspectForm() {
   const router = useRouter();
   const [validZips, setValidZips] = useState<string[]>([]);
   const [zipError, setZipError] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [zipSearch, setZipSearch] = useState("");
 
   // Fetch valid addresses from API on component mount
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function InspectForm() {
         const res = await fetch(`${BASEURL}/address`);
         const json = await res.json();
         if (json.success && json.data) {
-          const zips = json.data.map((item: IAddress) => item.zip);
+          const zips = Array.from(new Set(json.data.map((item: IAddress) => item.zip))) as string[];
           setValidZips(zips);
         }
       } catch (error) {
@@ -52,6 +55,10 @@ export default function InspectForm() {
     };
     fetchAddresses();
   }, []);
+
+  const filteredZips = [...validZips]
+    .filter((zip) => zip.includes(zipSearch))
+    .sort((a, b) => a.localeCompare(b));
 
   // Custom handler for ZIP Code to format and validate
   const handleZipChange = (value: string) => {
@@ -292,9 +299,22 @@ export default function InspectForm() {
 
                 {/* Conditional Error Message */}
                 {zipError && (
-                  <p id="invalid-zip-error-message" className="text-[#c41e3a] md:text-xs font-semibold mt-4 animate-in fade-in">
-                    We currently serve the Abilene & Big Country area. Please enter a valid ZIP code.
-                  </p>
+                  <div className="mt-4 space-y-2 animate-in fade-in">
+                    <p id="invalid-zip-error-message" className="text-[#c41e3a] text-xs font-semibold leading-relaxed">
+                      We currently serve the Abilene & Big Country area. Please enter a valid ZIP code.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setZipSearch("");
+                        setIsDialogOpen(true);
+                      }}
+                      className="text-[#c41e3a] hover:text-[#e11d48] text-xs font-bold underline flex items-center gap-1.5 cursor-pointer transition-colors animate-pulse"
+                    >
+                      <MapPin className="w-3.5 h-3.5" />
+                      View available service areas
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -383,6 +403,108 @@ export default function InspectForm() {
           <span className="flex items-center"><Clock className="w-3.5 h-3.5 text-[#c41e3a] mr-1.5" /> Under 24hr Response</span>
         </div>
       </div>
+
+      {/* Inline Styles for Custom Scrollbar matching dark theme */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        .waterflow-scroll::-webkit-scrollbar {
+          width: 5px;
+        }
+        .waterflow-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .waterflow-scroll::-webkit-scrollbar-thumb {
+          background: #1f2937;
+          border-radius: 10px;
+        }
+        .waterflow-scroll::-webkit-scrollbar-thumb:hover {
+          background: #374151;
+        }
+      `}} />
+
+      {/* Dialog for available service areas with Dark Waterflow Design */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent showCloseButton={false} className="sm:max-w-md bg-[#090f19] border border-gray-800 rounded-2xl shadow-2xl p-0 overflow-hidden gap-0">
+          
+          {/* Waterflow Gradient Header */}
+          <div className="bg-[linear-gradient(135deg,#0a111a_0%,#111827_50%,#c41e3a_100%)] text-white p-6 pb-8 relative overflow-hidden">
+            {/* Organic flowing backdrops */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#c41e3a]/15 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div className="relative z-10">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-white/5 border border-white/10 text-white mb-2.5 backdrop-blur-xs">
+                <MapPin className="w-3.5 h-3.5 text-red-400" />
+                SERVICE AREA
+              </span>
+              <DialogTitle className="text-2xl font-extrabold text-white tracking-tight">
+                Abilene & Big Country
+              </DialogTitle>
+              <DialogDescription className="text-gray-400 text-xs mt-1.5 font-medium leading-relaxed">
+                We provide custom inspections for these ZIP codes in the Abilene and surrounding areas.
+              </DialogDescription>
+            </div>
+            
+            {/* Wavy Waterflow SVG Divider */}
+            <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-[0] pointer-events-none">
+              <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[16px] fill-[#090f19] text-[#090f19]">
+                <path d="M0,0 C150,90 350,90 500,60 C650,30 850,30 1200,90 L1200,120 L0,120 Z" fill="#090f19" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Dialog Body */}
+          <div className="p-6 pt-4 space-y-4 bg-[#090f19]">
+            
+            {/* Styled Search Box */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Type your ZIP code to search..."
+                value={zipSearch}
+                onChange={(e) => setZipSearch(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                className="w-full p-3 pl-10 border border-gray-800 rounded-xl outline-none focus:border-[#c41e3a] text-sm font-semibold text-white bg-[#050910] shadow-inner transition-all duration-300"
+              />
+              <Search className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-gray-500" />
+            </div>
+
+            {/* Cascading Scrollable ZIP Grid */}
+            <div className="max-h-60 overflow-y-auto pr-1 border border-gray-800 rounded-xl p-3 bg-[#050910]/40 waterflow-scroll">
+              <div className="grid grid-cols-4 gap-2 text-center">
+                {filteredZips.map((zip, index) => (
+                  <div
+                    key={zip}
+                    style={{ 
+                      animationDelay: `${index * 15}ms`,
+                      animationFillMode: 'both'
+                    }}
+                    className="animate-in fade-in slide-in-from-bottom-2 duration-300 p-2.5 text-xs font-bold text-gray-200 bg-[#0e1726]/60 border border-gray-800 rounded-xl shadow-xs hover:border-[#c41e3a] hover:text-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default"
+                  >
+                    {zip}
+                  </div>
+                ))}
+                {filteredZips.length === 0 && (
+                  <div className="col-span-4 py-10 text-center text-sm text-gray-500 font-semibold flex flex-col items-center justify-center gap-2">
+                    <span>No matching ZIP codes found</span>
+                    <span className="text-xs font-normal text-gray-600">Try searching for a different code</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Footer / Close Button */}
+            <div className="pt-2 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsDialogOpen(false)}
+                className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 text-gray-300 font-bold rounded-xl transition-all duration-200 text-sm cursor-pointer shadow-xs"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

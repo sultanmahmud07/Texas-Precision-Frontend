@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronLeft, ChevronRight, Clock, MapPin } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock, MapPin, Search } from "lucide-react";
 import { toast } from "sonner";
 import { IAddress } from "@/types/address.interface";
 import { BASEURL } from "@/utils/constant";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 const step1Options = ["Single Family Home", "Townhome or Duplex", "Manufactured or Mobile", "Commercial"];
 const step2Options = ["Under 1,500", "1,500 to 2,500", "2,500 to 3,500", "3,500+"];
 const step3Options = ["ASAP - Emergency", "In the next 30 days", "More than a month from now"];
@@ -16,6 +17,8 @@ export default function EstimateForm() {
   const router = useRouter();
   const [validZips, setValidZips] = useState<string[]>([]);
   const [zipError, setZipError] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [zipSearch, setZipSearch] = useState("");
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -24,7 +27,7 @@ export default function EstimateForm() {
         const json = await res.json();
         if (json.success && json.data) {
           console.log(json.data)
-          const zips = json.data.map((item: IAddress) => item.zip);
+          const zips = Array.from(new Set(json.data.map((item: IAddress) => item.zip))) as string[];
           setValidZips(zips);
         }
       } catch (error) {
@@ -33,6 +36,10 @@ export default function EstimateForm() {
     };
     fetchAddresses();
   }, []);
+
+  const filteredZips = [...validZips]
+    .filter((zip) => zip.includes(zipSearch))
+    .sort((a, b) => a.localeCompare(b));
 
   // Custom handler for ZIP Code to format and validate
   const handleZipChange = (value: string) => {
@@ -135,6 +142,19 @@ export default function EstimateForm() {
         }
         .form-cta-text {
           background: linear-gradient(135deg, #c41e3a 0%, #a01830 100%);
+        }
+        .waterflow-scroll::-webkit-scrollbar {
+          width: 5px;
+        }
+        .waterflow-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .waterflow-scroll::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 10px;
+        }
+        .waterflow-scroll::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
         }
       `}} />
 
@@ -297,9 +317,22 @@ export default function EstimateForm() {
 
               {/* Conditional Error Message */}
               {zipError && (
-                <span id="invalid-zip-error-message" className="text-[#c41e3a] text-xs font-semibold mt-2 block animate-in fade-in">
-                  Sorry, we don&apos;t currently service this area. Please enter a ZIP code in the Dallas-Fort Worth metro area.
-                </span>
+                <div className="mt-2 space-y-2 animate-in fade-in">
+                  <span id="invalid-zip-error-message" className="text-[#c41e3a] text-xs font-semibold block leading-relaxed">
+                    Sorry, we don&apos;t currently service this area. Please enter a ZIP code in the Dallas-Fort Worth metro area.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setZipSearch("");
+                      setIsDialogOpen(true);
+                    }}
+                    className="text-[#c41e3a] hover:text-[#a01830] text-xs font-bold underline flex items-center gap-1.5 cursor-pointer transition-colors"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    View available service areas
+                  </button>
+                </div>
               )}
             </div>
           )}
@@ -372,6 +405,90 @@ export default function EstimateForm() {
           <span className="flex items-center"><Check className="w-3 h-3 text-primary mr-1" /> Zero Obligation</span>
         </div>
       </div>
+
+      {/* Dialog for available service areas with Waterflow Design */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent showCloseButton={false} className="sm:max-w-md bg-white border border-gray-100 rounded-2xl shadow-2xl p-0 overflow-hidden gap-0">
+          
+          {/* Waterflow Gradient Header */}
+          <div className="bg-[linear-gradient(135deg,#0f2744_0%,#1a365d_50%,#c41e3a_100%)] text-white p-6 pb-8 relative overflow-hidden">
+            {/* Organic/Glassmorphic flowing backdrops */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-red-500/20 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div className="relative z-10">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-white/15 border border-white/10 text-white mb-2.5 backdrop-blur-xs">
+                <MapPin className="w-3.5 h-3.5 text-red-400" />
+                SERVICE AREA
+              </span>
+              <DialogTitle className="text-2xl font-extrabold text-white tracking-tight">
+                DFW Service Areas
+              </DialogTitle>
+              <DialogDescription className="text-white/80 text-xs mt-1.5 font-medium leading-relaxed">
+                We provide custom estimates for these ZIP codes in the Dallas-Fort Worth metroplex.
+              </DialogDescription>
+            </div>
+            
+            {/* Wavy Waterflow SVG Divider */}
+            <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-[0] pointer-events-none">
+              <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[16px] fill-white text-white">
+                <path d="M0,0 C150,90 350,90 500,60 C650,30 850,30 1200,90 L1200,120 L0,120 Z" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Dialog Body */}
+          <div className="p-6 pt-4 space-y-4">
+            
+            {/* Styled Search Box */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Type your ZIP code to search..."
+                value={zipSearch}
+                onChange={(e) => setZipSearch(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                className="w-full p-3 pl-10 border-2 border-slate-100 rounded-xl outline-none focus:border-primary text-sm font-semibold text-gray-700 bg-slate-50/50 shadow-inner focus:bg-white transition-all duration-300"
+              />
+              <Search className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-slate-400" />
+            </div>
+
+            {/* Cascading Scrollable ZIP Grid */}
+            <div className="max-h-60 overflow-y-auto pr-1 border border-slate-100 rounded-xl p-3 bg-slate-50/30 waterflow-scroll">
+              <div className="grid grid-cols-4 gap-2 text-center">
+                {filteredZips.map((zip, index) => (
+                  <div
+                    key={zip}
+                    style={{ 
+                      animationDelay: `${index * 15}ms`,
+                      animationFillMode: 'both'
+                    }}
+                    className="animate-in fade-in slide-in-from-bottom-2 duration-300 p-2.5 text-xs font-bold text-[#0f2744] bg-white border border-slate-200/60 rounded-xl shadow-xs hover:border-primary hover:text-[#c41e3a] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default"
+                  >
+                    {zip}
+                  </div>
+                ))}
+                {filteredZips.length === 0 && (
+                  <div className="col-span-4 py-10 text-center text-sm text-slate-400 font-semibold flex flex-col items-center justify-center gap-2">
+                    <span>No matching ZIP codes found</span>
+                    <span className="text-xs font-normal text-slate-300">Try searching for a different code</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Footer / Close Button */}
+            <div className="pt-2 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsDialogOpen(false)}
+                className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-600 font-bold rounded-xl transition-all duration-200 text-sm cursor-pointer shadow-xs"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -21,9 +21,13 @@ export default function BookingWidget() {
   const [activeTab, setActiveTab] = useState<"1. Date" | "2. Time" | "3. Info">("1. Date");
 
   // Calendar State
-  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 3, 1)); // April 2026 default based on image
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
   const [availableDates, setAvailableDates] = useState<AvailableDate[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isLoadingDates, setIsLoadingDates] = useState(false);
 
   // Time Slot State
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
@@ -50,6 +54,7 @@ export default function BookingWidget() {
   // 1. Fetch available dates on mount
   useEffect(() => {
     const fetchDates = async () => {
+      setIsLoadingDates(true);
       try {
         const res = await fetch(`${BASEURL}/availability`);
         const json = await res.json();
@@ -58,6 +63,8 @@ export default function BookingWidget() {
         }
       } catch (error) {
         console.error("Failed to fetch available dates:", error);
+      } finally {
+        setIsLoadingDates(false);
       }
     };
     fetchDates();
@@ -252,70 +259,81 @@ export default function BookingWidget() {
           TAB 1: CALENDAR VIEW
           ========================================= */}
       {activeTab === "1. Date" && (
-        <div className="p-6 md:p-8 animate-in fade-in slide-in-from-left-4 duration-300">
-
-          {/* Month Selector */}
-          <div className="flex items-center justify-between mb-8 px-2">
-            <button onClick={prevMonth} className="p-1 hover:bg-slate-100 rounded-full transition-colors">
-              <ChevronLeft className="w-5 h-5 text-slate-800" />
-            </button>
-            <span className="text-lg font-bold text-[#0f2744]">
-              {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-            </span>
-            <button onClick={nextMonth} className="p-1 hover:bg-slate-100 rounded-full transition-colors">
-              <ChevronRight className="w-5 h-5 text-slate-800" />
-            </button>
-          </div>
-
-          {/* Days Header */}
-          <div className="grid grid-cols-7 text-center text-[13px] font-medium text-slate-500 mb-6 gap-y-4">
-            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-
-            {/* Empty Offset Days */}
-            {emptyDaysStart.map((_, i) => <div key={`empty-${i}`}></div>)}
-
-            {/* Calendar Days */}
-            {daysArray.map((day) => {
-              const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-              // 1. Check if the date is in the past or is today
-              const cellDate = new Date(year, month, day);
-              const isPast = cellDate < today;
-              const isToday = cellDate.getTime() === today.getTime();
-
-              // 2. Check if it's available in API AND not in the past
-              const isAvailable = !isPast && availableDates.some(d => d.date === dateStr);
-
-              // 3. Determine base styling
-              let btnClass = "text-slate-300 cursor-not-allowed";
-              if (isAvailable) {
-                btnClass = "bg-[#f97316] text-white hover:bg-[#ea580c] shadow-md cursor-pointer";
-              }
-
-              return (
-                <button
-                  key={day}
-                  disabled={!isAvailable}
-                  onClick={() => handleDateSelect(dateStr)}
-                  className={`relative flex items-center justify-center h-10 w-10 mx-auto font-medium text-[15px] rounded-lg transition-all ${btnClass} ${
-                    // Highlight today with an outline if it's today's date
-                    isToday ? "ring-2 ring-offset-2 ring-[#f97316] font-bold" : ""
-                    }`}
-                >
-                  {day}
-
-                  {/* Small dot indicator for today if it's not an available highlighted button */}
-                  {isToday && !isAvailable && (
-                    <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#f97316]"></span>
-                  )}
+        <div className="p-6 md:p-8 animate-in fade-in slide-in-from-left-4 duration-300 min-h-[300px] flex flex-col justify-center">
+          {isLoadingDates ? (
+            <div className="flex flex-col items-center justify-center py-12 gap-3.5 animate-in fade-in duration-300">
+              <svg className="animate-spin h-8 w-8 text-[#f97316]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span className="text-sm font-semibold text-slate-400 tracking-wide animate-pulse">Loading available dates...</span>
+            </div>
+          ) : (
+            <>
+              {/* Month Selector */}
+              <div className="flex items-center justify-between mb-8 px-2">
+                <button onClick={prevMonth} className="p-1 hover:bg-slate-100 rounded-full transition-colors">
+                  <ChevronLeft className="w-5 h-5 text-slate-800" />
                 </button>
-              );
-            })}
-          </div>
+                <span className="text-lg font-bold text-[#0f2744]">
+                  {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                </span>
+                <button onClick={nextMonth} className="p-1 hover:bg-slate-100 rounded-full transition-colors">
+                  <ChevronRight className="w-5 h-5 text-slate-800" />
+                </button>
+              </div>
 
-          <div className="text-center mt-8 text-sm text-slate-500">
-            Select an available date to see time slots
-          </div>
+              {/* Days Header */}
+              <div className="grid grid-cols-7 text-center text-[13px] font-medium text-slate-500 mb-6 gap-y-4">
+                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+
+                {/* Empty Offset Days */}
+                {emptyDaysStart.map((_, i) => <div key={`empty-${i}`}></div>)}
+
+                {/* Calendar Days */}
+                {daysArray.map((day) => {
+                  const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                  // 1. Check if the date is in the past or is today
+                  const cellDate = new Date(year, month, day);
+                  const isPast = cellDate < today;
+                  const isToday = cellDate.getTime() === today.getTime();
+
+                  // 2. Check if it's available in API AND not in the past
+                  const isAvailable = !isPast && availableDates.some(d => d.date === dateStr);
+
+                  // 3. Determine base styling
+                  let btnClass = "text-slate-300 cursor-not-allowed";
+                  if (isAvailable) {
+                    btnClass = "bg-[#f97316] text-white hover:bg-[#ea580c] shadow-md cursor-pointer";
+                  }
+
+                  return (
+                    <button
+                      key={day}
+                      disabled={!isAvailable}
+                      onClick={() => handleDateSelect(dateStr)}
+                      className={`relative flex items-center justify-center h-10 w-10 mx-auto font-medium text-[15px] rounded-lg transition-all ${btnClass} ${
+                        // Highlight today with an outline if it's today's date
+                        isToday ? "ring-2 ring-offset-2 ring-[#f97316] font-bold" : ""
+                        }`}
+                    >
+                      {day}
+
+                      {/* Small dot indicator for today if it's not an available highlighted button */}
+                      {isToday && !isAvailable && (
+                        <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#f97316]"></span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="text-center mt-8 text-sm text-slate-500">
+                Select an available date to see time slots
+              </div>
+            </>
+          )}
         </div>
       )}
 
