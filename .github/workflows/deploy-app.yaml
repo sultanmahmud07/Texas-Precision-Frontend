@@ -1,0 +1,74 @@
+name: Deploy Next.js Frontend on EC2
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install --frozen-lockfile
+
+      - name: Build Next.js Project
+        run: npm run build
+
+      # Configure SSH Safely
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          cat << 'EOF' > ~/.ssh/id_rsa
+          ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          EOF
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      # Deploy to EC2
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          # 1. Create a specific directory for the Next.js frontend
+          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST "mkdir -p ~/texas-frontend"
+
+          # 2. Create the .env file locally from GitHub Secrets (e.g., NEXT_PUBLIC_API_URL)
+          cat << 'EOF' > .env
+          ${{ secrets.FRONTEND_ENVS }}
+          EOF
+
+          # 3. Copy files to EC2 instance (including the .next build folder)
+          rsync -avz -e "ssh -i ~/.ssh/id_rsa" \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.github' \
+            . $EC2_USER@$EC2_HOST:~/texas-frontend/
+
+          # 4. Execute deployment commands safely
+          ssh -i ~/.ssh/id_rsa $EC2_USER@$EC2_HOST << 'EOF'
+            export PATH=$HOME/.local/share/fnm:$PATH
+            eval "`fnm env`"
+            
+            npm install -g pm2
+            
+            cd ~/texas-frontend
+            
+            # Install production dependencies
+            npm install --production
+            
+            # Restart or start the Next.js PM2 process on Port 3000
+            pm2 restart next-frontend || PORT=3000 pm2 start npm --name "next-frontend" -- start
+            
+            pm2 save
+          EOF
