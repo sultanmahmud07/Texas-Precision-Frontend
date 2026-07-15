@@ -5,7 +5,7 @@ import { Check, ChevronLeft, Clock, ShieldCheck, MapPin, Search } from "lucide-r
 import { toast } from "sonner";
 import { IAddress } from "@/types/address.interface";
 import { BASEURL } from "@/utils/constant";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 // --- Form Options Data (Updated to match new reference images) ---
 const step1Options = [
@@ -89,7 +89,7 @@ export default function InspectForm() {
     name: "",
     email: "",
     phone: "",
-    sender: "STANDARD_ESTIMATE" 
+    sender: "STANDARD_ESTIMATE"
   });
 
   // --- Navigation & Handlers (Logic remains unchanged) ---
@@ -374,8 +374,8 @@ export default function InspectForm() {
                 onClick={nextStep}
                 disabled={!isStepValid()}
                 className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${isStepValid()
-                    ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
-                    : "bg-gray-800 text-gray-500 cursor-not-allowed"
+                  ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
+                  : "bg-gray-800 text-gray-500 cursor-not-allowed"
                   }`}
               >
                 CONTINUE →
@@ -385,8 +385,8 @@ export default function InspectForm() {
                 onClick={handleSubmit}
                 disabled={!isStepValid() || isSubmitting}
                 className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center transition-all text-sm tracking-wide ${isStepValid() && !isSubmitting
-                    ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
-                    : "bg-gray-800 text-gray-500 cursor-not-allowed"
+                  ? "bg-[linear-gradient(135deg,#c41e3a_0%,#a01830_100%)] text-white shadow-lg hover:-translate-y-0.5"
+                  : "bg-gray-800 text-gray-500 cursor-not-allowed"
                   }`}
               >
                 {isSubmitting ? "PROCESSING..." : "SUBMIT REQUEST"}
@@ -425,13 +425,13 @@ export default function InspectForm() {
       {/* Dialog for available service areas with Dark Waterflow Design */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent showCloseButton={false} className="sm:max-w-md bg-[#090f19] border border-gray-800 rounded-2xl shadow-2xl p-0 overflow-hidden gap-0">
-          
+
           {/* Waterflow Gradient Header */}
           <div className="bg-[linear-gradient(135deg,#0a111a_0%,#111827_50%,#c41e3a_100%)] text-white p-6 pb-8 relative overflow-hidden">
             {/* Organic flowing backdrops */}
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
             <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#c41e3a]/15 rounded-full blur-xl pointer-events-none"></div>
-            
+
             <div className="relative z-10">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-white/5 border border-white/10 text-white mb-2.5 backdrop-blur-xs">
                 <MapPin className="w-3.5 h-3.5 text-red-400" />
@@ -444,7 +444,7 @@ export default function InspectForm() {
                 We provide custom inspections for these ZIP codes in the Abilene and surrounding areas.
               </DialogDescription>
             </div>
-            
+
             {/* Wavy Waterflow SVG Divider */}
             <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-[0] pointer-events-none">
               <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[16px] fill-[#090f19] text-[#090f19]">
@@ -455,7 +455,7 @@ export default function InspectForm() {
 
           {/* Dialog Body */}
           <div className="p-6 pt-4 space-y-4 bg-[#090f19]">
-            
+
             {/* Styled Search Box */}
             <div className="relative">
               <input
@@ -474,7 +474,7 @@ export default function InspectForm() {
                 {filteredZips.map((zip, index) => (
                   <div
                     key={zip}
-                    style={{ 
+                    style={{
                       animationDelay: `${index * 15}ms`,
                       animationFillMode: 'both'
                     }}
@@ -515,8 +515,8 @@ function RadioOption({ label, icon, selected, onClick }: { label: string, icon: 
     <label
       onClick={onClick}
       className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all ${selected
-          ? "border-[#c41e3a] bg-[#c41e3a]/5"
-          : "border-gray-800 bg-white/2 hover:bg-white/4"
+        ? "border-[#c41e3a] bg-[#c41e3a]/5"
+        : "border-gray-800 bg-white/2 hover:bg-white/4"
         }`}
     >
       <div className="w-6 text-base md:text-xl mr-3 opacity-90 flex justify-center">

@@ -1,145 +1,107 @@
-# 🌍 Local Guide Frontend (Next.js 16 + TypeScript)
+# 🏡 Texas Precision Roofing — Customer Portal (Next.js 16 + React 19)
 
-A modern, high-performance frontend powering the **Local Guide Platform**, where travelers explore tours, book local guides, make payments, and share experiences through reviews.
+A conversion-focused, high-performance customer landing page and scheduler application built using **Next.js 16 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**. 
 
-This repository contains the full UI/UX implementation for tourists, guides, and admin dashboards.
-
----
-
-## 🔗 Live Website  
-**Production:** https://local-guide-client-fz9u.vercel.app 
-**Explore Page:** https://local-guide-client-fz9u.vercel.app/explore  
-**Backend API:** https://native-ways-api.onrender.com  
+This portal acts as the public face of **Texas Precision Roofing** (DFW's trusted roofing provider), enabling homeowners to calculate custom roofing estimates, check their ZIP codes for recent storm damage coverage, and schedule professional on-site roof inspections directly into the company calendar.
 
 ---
 
-## 🚀 Features  
+## 🚀 Key Features & Interactive Tools
 
-### 🧭 **Explore Tours & Guides**
-- Search by destination, city, category, language  
-- Filter by price range, rating, duration  
-- Real-time URL sync (`/explore?search=dhaka&category=Food`)  
-- Responsive grid view for tours & guides  
-- Review-based ranking
+### 1. 💰 Roofing Estimate & Lead Generation
+* **Interactive Estimate Calculator**: Engaging step-by-step form capturing home specifics to output detailed, accurate material estimates.
+* **Employee Pricing Campaign**: Prominent banners detailing special employee pricing offers starting from $7,999.
+* **Owner-Operated Pledge**: Trust badges highlighting the company's owner-operated quality guarantees, reviews, and verified contractor ratings.
+* **Social Proof Tickers**: Popups displaying real-time pricing alerts, active regional bookings, and recent customer signups to drive conversion rate optimizations.
 
-### 🎒 **Tour System (Guide Panel)**
-- Create listings (thumbnail + multiple images)
-- Update listings section-by-section
-- Delete or replace uploaded images  
-- Status control: `PUBLIC / PRIVATE / HOLD / SUSPENDED`
-- Auto-generate slug from title  
-- Guide analytics:  
-  - Total tours  
-  - Recent bookings  
-  - Earnings  
-  - Ratings overview  
+### 2. 🌪️ Storm Damage & ZIP Zone Checker
+* **ZIP Code Damage Validation**: Instantly matches user ZIP inputs against regional storm database profiles.
+* **Insurance Claim Pathway**: Specialized guidance layout educating homeowners on how to maximize insurance coverage for storm-related damages.
 
-### 📅 **Booking Workflow**
-- Tourist can book a tour with:
-  - Date & time selection  
-  - Group size  
-  - Notes  
-- Real-time calendar with disabled dates  
-- Booking detail modal  
-- Guide can confirm/decline  
-- Booking status timeline (UI optimized)  
-- Payment button showing only when eligible  
+### 3. 📅 Inspection Scheduler Form
+* **Live Availability Lookup**: Integrates with the backend REST APIs to fetch open date slots in real-time, preventing double-bookings.
+* **Responsive Step-by-Step Form**: Assembles inspection site details, contact numbers (with phone input formatting), and preferred timezone regions (Central Time, Eastern Time, etc.).
+* **Dynamic Time Block Display**: Clean UI displaying available slots dynamically for the chosen date.
 
-### ⭐ **Reviews Module**
-- Tourist can review a tour after status → `COMPLETED`
-- Star rating + comment  
-- Display in tour details  
-- Auto-sliding review carousel section  
-- Guide profile shows aggregated ratings  
-
-### 💬 **Messaging / Custom Tour Request**
-- Tourist can send personalized tour request  
-- Guide receives structured message  
-- Clean modern form UI  
-
-### 💳 **Payment Integration**
-- Integrated **SSLCommerz Gateway**  
-- Redirects user to new payment tab  
-- Payment data stored in booking  
-- Admin can update payment status  
-
-### 📊 **Dashboard Analytics**
-#### **Tourist Dashboard**
-- Total bookings  
-- Completed/pending status  
-- Payment history  
-- Reviews overview  
-
-#### **Guide Dashboard**
-- Total earnings  
-- Tour performance  
-- Recent customer reviews  
-- Booking timeline  
-
-#### **Admin Dashboard**
-- Overview of:
-  - Users  
-  - Guides  
-  - Tours  
-  - Bookings  
-  - Payments  
-- Chart-ready analytics  
-- Role-based access  
+### 4. 💫 Micro-Animations & Responsive Styles
+* Crafted using **Framer Motion** and **Tailwind CSS v4**'s advanced styling engine.
+* Rich visual layouts optimized for mobile taps, desktop mouseovers, and strict web accessibility targets.
 
 ---
 
 ## 🛠️ Technology Stack
 
-### **Frontend**
-- **Next.js 16** (App Router)
-- **React 19**
-- **TypeScript**
-- **TailwindCSS**
-- **shadcn/ui**
-- **Zod Validation**
-- **React Hook Form (optional)**
-- **Next/Image**
-- **React Slick Carousel**
-- **Lucide Icons**
-
-### **Integrations**
-- Cloudinary — image hosting  
-- SSLCommerz — payment gateway  
-- REST API communication with backend  
+| Layer | Dependency | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | Next.js 16 (App Router) | High performance, static rendering, and API routes integration |
+| **Core UI** | React 19 & TypeScript | Strict type safety and robust, high-performance component architecture |
+| **Styling** | Tailwind CSS v4 + PostCSS | Ultra-fast rendering engine and advanced CSS variables integration |
+| **Components** | Radix UI, Lucide Icons | WAI-ARIA compliant design primitives and modern visual assets |
+| **Forms & Check** | React Hook Form + Zod | Seamless input management with rigorous client-side schema validation |
+| **Alerts** | Sonner & React-Toastify | Fluid, accessible toast overlays for lead validation updates |
+| **Visual Assets** | Next/Image, Swiper, Embla | Lazy-loaded, responsive media galleries showcasing recent roofing jobs |
 
 ---
 
-## ⚙️ Installation & Setup  
+## 📂 Codebase Structure
 
-### 1️⃣ Clone the repository
-```sh
-git clone https://github.com/sultanmahmud07/local-guide-client.git
-cd local-guide-client
+```text
+src/
+├── app/                        # Next.js App Router folders
+│   ├── roofing-estimate/       # Estimate calculation page
+│   ├── schedule/               # Interactive inspection appointment page
+│   ├── storm-damage/           # ZIP code storm path verification portal
+│   └── success/                # Submission success splash page
+│
+├── components/                 # Reusable blocks and design layout modules
+│   ├── loaders/                # Skeleton load placeholders
+│   ├── pages/                  # Page-specific views:
+│   │   ├── Estimate/           # CoreBenefits, EstimateForm, PricingToastAlert
+│   │   └── Store/              # InspectForm, StormHero, InsuranceSection
+│   ├── shared/                 # Navbars, Footer, Global buttons
+│   └── ui/                     # Radix UI wrapper primitives (Alert, Dialog)
+│
+├── lib/                        # CSS utils and Tailwind helper adapters
+├── types/                      # Common TypeScript interfaces
+├── utils/                      # Helper hooks and formatting math utilities
+└── zod/                        # Form schema validation blueprints (Schema validations)
 ```
 
-### 2️⃣ Install dependencies
-```sh
+---
+
+## ⚙️ Development Setup
+
+### 1. Prerequisite Checklist
+* **Node.js** (v18.x or above)
+* **npm** or **bun** packager installed locally
+
+### 2. Dependency Installation
+Run the install command inside the `Frontend` workspace:
+```bash
 npm install
 ```
 
-### 3️⃣ Create `.env`
+### 3. Setup Local Environment
+Create a `.env` file in the root of the `Frontend` folder:
+```env
+NEXT_PUBLIC_BASE_API_URL=http://localhost:5000/api/v1
 ```
-JWT_SECRET= your_access_secret
-NODE_ENV=development
+*Adjust this variable to match your local or production Server endpoints.*
 
-NEXT_PUBLIC_BASE_API_URL=https://native-ways-api.onrender.com/api/v1
-```
-
-### 4️⃣ Run Development Server
-```sh
+### 4. Boot Dev Server
+Spin up the Next.js development client:
+```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) inside your web browser to view the application.
 
-### 5️⃣ Build for Production
-```sh
+### 5. Production Compilation
+Test compiling performance and asset optimizations:
+```bash
 npm run build
-npm start
+npm run start
 ```
 
 ---
 
+💡 *Texas Precision Roofing Customer Portal — Providing premium roofing, precision estimates, and trusted service.*

@@ -13,6 +13,12 @@ interface AvailableDate {
   slots: string[];
 }
 
+interface BookedSlot {
+  _id?: string;
+  scheduledDate: string;
+  scheduledTime: string;
+}
+
 export default function BookingWidget() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,6 +34,7 @@ export default function BookingWidget() {
   const [availableDates, setAvailableDates] = useState<AvailableDate[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isLoadingDates, setIsLoadingDates] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState<BookedSlot[]>([]);
 
   // Time Slot State
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
@@ -51,7 +58,7 @@ export default function BookingWidget() {
 
   // --- Initialization & API Calls ---
 
-  // 1. Fetch available dates on mount
+  // 1. Fetch available dates & booked slots on mount
   useEffect(() => {
     const fetchDates = async () => {
       setIsLoadingDates(true);
@@ -67,7 +74,21 @@ export default function BookingWidget() {
         setIsLoadingDates(false);
       }
     };
+
+    const fetchBookedSlots = async () => {
+      try {
+        const res = await fetch(`${BASEURL}/inspection/booked-slots`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          setBookedSlots(json.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch booked slots:", error);
+      }
+    };
+
     fetchDates();
+    fetchBookedSlots();
 
     // 2. Pre-fill form data from URL parameters
     const fullName = searchParams.get("name") || "";
@@ -211,6 +232,14 @@ export default function BookingWidget() {
     return `${hours}:${m} ${ampm} CDT`;
   };
 
+  // Check if a time slot is already booked for a specific date
+  const isSlotBooked = (date: string, time24: string) => {
+    const formattedTime = formatTime(time24);
+    return bookedSlots.some(
+      (slot) => slot.scheduledDate === date && slot.scheduledTime === formattedTime
+    );
+  };
+
   // Check if form is valid to submit
   const isFormValid = () => {
     return formData.firstName && formData.lastName && formData.email && formData.phone &&
@@ -299,8 +328,11 @@ export default function BookingWidget() {
                   const isPast = cellDate < today;
                   const isToday = cellDate.getTime() === today.getTime();
 
-                  // 2. Check if it's available in API AND not in the past
-                  const isAvailable = !isPast && availableDates.some(d => d.date === dateStr);
+                  // 2. Check if it's available in API, not in the past, and has at least one unbooked slot
+                  const dateInfo = availableDates.find(d => d.date === dateStr);
+                  const isAvailable = !isPast && !!dateInfo && dateInfo.slots.some(
+                    (slotTime) => !isSlotBooked(dateStr, slotTime)
+                  );
 
                   // 3. Determine base styling
                   let btnClass = "text-slate-300 cursor-not-allowed";
@@ -357,18 +389,41 @@ export default function BookingWidget() {
             </span>
           </div>
 
+          {/* Color Legend */}
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-6 text-xs font-semibold text-slate-500 bg-slate-50/60 py-3 px-4 rounded-xl border border-slate-100">
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 rounded-md bg-white border border-slate-200 inline-block shadow-xs"></span>
+              <span>Available</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 rounded-md bg-[#f97316] inline-block shadow-xs"></span>
+              <span>Selected</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-4 rounded-md bg-red-50/50 border border-red-100 inline-block relative overflow-hidden shadow-xs">
+                <span className="absolute inset-y-0 left-1/2 w-0.5 bg-red-200 rotate-45 transform -translate-x-1/2"></span>
+              </span>
+              <span className="text-slate-400">Booked (Unavailable)</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {timeSlots.map((time24) => {
               const formattedTime = formatTime(time24);
               const isSelected = selectedTime === time24;
+              const isBooked = selectedDate ? isSlotBooked(selectedDate, time24) : false;
               return (
                 <button
                   key={time24}
+                  disabled={isBooked}
                   onClick={() => handleTimeSelect(time24)}
-                  className={`py-3.5 px-4 rounded-xl text-sm font-medium border transition-all ${isSelected
-                    ? "bg-[#f97316] border-[#f97316] text-white shadow-md"
-                    : "bg-white border-slate-200 text-[#0f2744] hover:border-[#f97316] hover:text-[#f97316]"
-                    }`}
+                  className={`py-3.5 px-4 rounded-xl text-sm font-medium border transition-all ${
+                    isSelected
+                      ? "bg-[#f97316] border-[#f97316] text-white shadow-md cursor-pointer"
+                      : isBooked
+                      ? "bg-red-50/50 border-red-100 text-slate-400 cursor-not-allowed opacity-60 line-through"
+                      : "bg-white border-slate-200 text-[#0f2744] hover:border-[#f97316] hover:text-[#f97316] cursor-pointer"
+                  }`}
                 >
                   {formattedTime}
                 </button>
